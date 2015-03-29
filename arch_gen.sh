@@ -51,7 +51,7 @@ sudo ./root.x86_64/bin/arch-chroot root.x86_64 << EOF
     pacman -Rc --noconfirm arch-install-scripts dbus glib2 hwids kbd kmod libdbus libseccomp libsystemd lz4 shadow systemd util-linux
     pacman -Syu --noconfirm
     pacman -Scc --noconfirm
-    rm /var/cache/pacman/pkg/*
+    rm -r /var/cache/pacman/pkg/*
     rm -rf /usr/share/man /usr/share/info /usr/share/doc /usr/share/locale README /etc/resolve.conf
     exit
 EOF
