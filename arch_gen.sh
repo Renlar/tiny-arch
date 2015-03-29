@@ -23,7 +23,7 @@ cd img
 
 # Pull Pierre Schmitz PGP Key.
 # http://pgp.mit.edu:11371/pks/lookup?op=vindex&fingerprint=on&exact=on&search=0x4AA4767BBC9C4B1D18AE28B77F2D434B9741E8AC
-gpg --keyserver pgp.mit.edu --recv-keys 9741E8AC
+#gpg --keyserver pgp.mit.edu --recv-keys 9741E8AC
 
 #########################################
 # Pull the Pacman image from kernel.org #
@@ -41,9 +41,9 @@ fi
 sudo rm -rf root.x86_64
 tar xf archlinux-bootstrap-$VERSION-x86_64.tar.gz > /dev/null
 
-#####################################
-# Update and clean the pulled image #
-#####################################
+###########################
+# Update the pulled image #
+###########################
 sudo ./root.x86_64/bin/arch-chroot root.x86_64 << EOF
     echo 'Server = https://mirrors.kernel.org/archlinux/\$repo/os/\$arch' > /etc/pacman.d/mirrorlist
     pacman-key --init
@@ -52,11 +52,9 @@ sudo ./root.x86_64/bin/arch-chroot root.x86_64 << EOF
     pacman -Syu --noconfirm
     pacman -Scc --noconfirm
     rm /var/cache/pacman/pkg/*
-    rm -rf /usr/share/man /usr/share/info /usr/share/doc /usr/share/locale README
+    rm -rf /usr/share/man /usr/share/info /usr/share/doc /usr/share/locale README /etc/resolve.conf
     exit
 EOF
-
-sudo chown -R root:root root.x86_64
 
 ###
 # udev doesnt work in containers, rebuild /dev
@@ -80,13 +78,4 @@ sudo bash << EOF
     mknod -m 666 $DEV/ptmx c 5 2
     ln -sf /proc/self/fd $DEV/fd
 EOF
-
-######################
-# Create the tarball #
-######################
-sudo tar cvfJ root.x86_64.tar.xz -C root.x86_64 .
-#TODO: compression progress instead of verbose
-#sudo su << EOF 
-#  tar cf -C root.x86_64 . | pv -s `du -sb . | grep -o '[0-9]\+'` -N tar  | xz > root.x86_64.tar.xz
-#EOF
 
