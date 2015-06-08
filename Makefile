@@ -1,14 +1,13 @@
 WD=$(shell pwd)
 ROOT="img/root.x86_64/"
 
-
 default: all
 
 all: clean build
 
 build: tar docker
 
-tar: gen_img clean_img set_perm pack_tar rm_img
+tar: gen_img set_perm pack_tar rm_img
 
 clean:
 	rm -rf root.x86_64.tar.*

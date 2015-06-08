@@ -1,7 +1,6 @@
 #!/bin/bash
 set -e
 
-# Change your to your user if this is a unique new image.
 USER="redock"
 BUILD="$USER/tiny-arch"
 # Dependencies
@@ -51,8 +50,8 @@ sudo ./root.x86_64/bin/arch-chroot root.x86_64 << EOF
     pacman -Rc --noconfirm arch-install-scripts dbus glib2 hwids kbd kmod libdbus libseccomp libsystemd lz4 shadow systemd util-linux
     pacman -Syu --noconfirm
     pacman -Scc --noconfirm
-    rm -r /var/cache/pacman/pkg/*
-    rm -rf /usr/share/man /usr/share/info /usr/share/doc /usr/share/locale README /etc/resolve.conf
+#    rm -r /var/cache/pacman/pkg/*
+#    rm -rf /usr/share/man /usr/share/info /usr/share/doc /usr/share/locale README /etc/resolve.conf
     exit
 EOF
 
